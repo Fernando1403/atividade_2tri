@@ -9,7 +9,7 @@ module.exports = (app)=>{
         //conectar com o database
         conexao()
         //buscar todos os documentos da colecao mygrid
-        modelo.find()
+        modelo.find().sort({_id:-1})
         .then((modelo)=>{
             res.render('mygrid.ejs',{dados:modelo})
         })
@@ -64,19 +64,20 @@ module.exports = (app)=>{
         //abrir a view mygrid_alterar e enviar a json do documento
         res.render('mygrid_alterar.ejs', {dados:procurar})
     })
-    
-    //Alterar documento da colection atual
-    app.post('/alterar_mygrid', async(req, res)=>{
-        //recuperando o id da barra de endereço
+
+    //listar o documento para o alterar
+    app.post('/alterar_mygrid', async(req,res)=>{
+        //recuperar o id da barra de endereço
         var id = req.query.id
         //recuperar as informações digitadas
         var dados = req.body
-        //alterando o documento da colection
+        //alterar o documento específico
         var alterar = await modelo.findOneAndUpdate(
             {_id:id},
-            {titulo:dados.titulo,
-             texto:dados.texto})
-        //voltar pra página mygrid
+            {titulo:dados.titulo, 
+            texto:dados.texto})
+        //valtar pra página mygrid
         res.redirect('/mygrid')
     })
+    
 }
