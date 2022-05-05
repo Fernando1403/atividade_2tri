@@ -70,10 +70,9 @@ module.exports = (app) => {
                 conexao()
                     //gravar o nome do arquivo na collection gallery
                 var arquivo = await gallery.findOneAndUpdate(
-                        {_id:req.queryid},
-                {
-                  arquivo: req.file.filename
-                    }).save()
+                        {_id:req.query.id},
+                        {arquivo:req.file.filename}
+                )
                     //apos o upload voltar para o formulario
                 res.redirect('/gallery')
 
@@ -81,5 +80,4 @@ module.exports = (app) => {
         })
 
     })
-
 }
